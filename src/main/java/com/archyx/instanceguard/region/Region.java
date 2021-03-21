@@ -33,6 +33,10 @@ public abstract class Region {
         return flags;
     }
 
+    public boolean hasFlag(FlagType flagType) {
+        return flags.containsKey(flagType);
+    }
+
     public void setFlag(FlagType flagType, FlagValue value) {
         if (value == null) {
             flags.remove(flagType);

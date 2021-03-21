@@ -5,7 +5,9 @@ import com.archyx.instanceguard.player.PlayerData;
 import com.archyx.instanceguard.region.CuboidRegion;
 import com.archyx.instanceguard.region.RegionManager;
 import net.minestom.server.chat.ChatColor;
+import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
+import net.minestom.server.command.builder.CommandContext;
 import net.minestom.server.command.builder.arguments.ArgumentString;
 import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.entity.Player;
@@ -18,6 +20,8 @@ public class RegionCreateCommand extends Command {
         super("create");
 
         ArgumentString idArgument = ArgumentType.String("id");
+
+        setDefaultExecutor(this::usage);
 
         addSyntax((sender, context) -> {
             if (!sender.isPlayer()) {
@@ -70,4 +74,9 @@ public class RegionCreateCommand extends Command {
             player.sendMessage(ChatColor.DARK_CYAN + "Successfully created region with id " + id);
         }, idArgument);
     }
+
+    private void usage(CommandSender sender, CommandContext context) {
+        sender.sendMessage(ChatColor.YELLOW + "Usage: " + ChatColor.WHITE + "/region create <id>");
+    }
+
 }

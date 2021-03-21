@@ -6,13 +6,14 @@ import com.archyx.instanceguard.flag.FlagValue;
 import com.archyx.instanceguard.region.Region;
 import com.archyx.instanceguard.region.RegionManager;
 import net.minestom.server.chat.ChatColor;
+import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
+import net.minestom.server.command.builder.CommandContext;
 import net.minestom.server.command.builder.arguments.ArgumentBoolean;
 import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 public class RegionFlagSetCommand extends Command {
@@ -24,6 +25,8 @@ public class RegionFlagSetCommand extends Command {
                 .setSuggestionCallback(((sender, context, suggestion) -> RegionCommand.pathRegionSuggestion(sender, context, suggestion, extension)));
         var flagArgument = ArgumentType.String("flag").setSuggestionCallback(RegionCommand::pathFlagSuggestion);
         ArgumentBoolean valueArgument = ArgumentType.Boolean("value");
+
+        setDefaultExecutor(this::usage);
 
         addSyntax((sender, context) -> {
             if (!sender.isPlayer()) {
@@ -54,11 +57,13 @@ public class RegionFlagSetCommand extends Command {
                 region.setFlag(flagType, new FlagValue(value));
                 player.sendMessage(ChatColor.DARK_CYAN + "Set flag " + flag.toLowerCase(Locale.ROOT) + " in region " + id + " to " + value);
             } catch (IllegalArgumentException e) {
-                player.sendMessage(ChatColor.YELLOW + flag + " is not a valid flag, valid flags are: " + Arrays.toString(FlagType.values()));
+                player.sendMessage(ChatColor.YELLOW + flag + " is not a valid flag, valid flags are: " + FlagType.getValueList());
             }
         }, idArgument, flagArgument, valueArgument);
     }
 
-
+    private void usage(CommandSender sender, CommandContext context) {
+        sender.sendMessage(ChatColor.YELLOW + "Usage: " + ChatColor.WHITE + "/region flag set <id> <flag> <value>");
+    }
 
 }

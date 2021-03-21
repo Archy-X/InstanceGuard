@@ -1,5 +1,7 @@
 package com.archyx.instanceguard.flag;
 
+import java.util.Locale;
+
 public enum FlagType {
 
     BLOCK_BREAK(ValueType.BOOLEAN),
@@ -14,6 +16,15 @@ public enum FlagType {
 
     public ValueType getValueType() {
         return valueType;
+    }
+
+    public static String getValueList() {
+        StringBuilder list = new StringBuilder();
+        for (FlagType flagType : FlagType.values()) {
+            list.append(flagType.toString().toLowerCase(Locale.ROOT)).append(", ");
+        }
+        list.delete(list.length() - 2, list.length());
+        return list.toString();
     }
 
 }

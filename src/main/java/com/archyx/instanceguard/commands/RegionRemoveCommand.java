@@ -3,7 +3,9 @@ package com.archyx.instanceguard.commands;
 import com.archyx.instanceguard.InstanceGuard;
 import com.archyx.instanceguard.region.RegionManager;
 import net.minestom.server.chat.ChatColor;
+import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
+import net.minestom.server.command.builder.CommandContext;
 import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
@@ -15,6 +17,8 @@ public class RegionRemoveCommand extends Command {
 
         var idArgument = ArgumentType.String("id")
                 .setSuggestionCallback(((sender, context, suggestion) -> RegionCommand.pathRegionSuggestion(sender, context, suggestion, extension)));
+
+        setDefaultExecutor(this::usage);
 
         addSyntax((sender, context) -> {
             if (!sender.isPlayer()) {
@@ -40,4 +44,9 @@ public class RegionRemoveCommand extends Command {
             }
         }, idArgument);
     }
+
+    private void usage(CommandSender sender, CommandContext context) {
+        sender.sendMessage(ChatColor.YELLOW + "Usage: " + ChatColor.WHITE + "/region remove <id>");
+    }
+
 }
