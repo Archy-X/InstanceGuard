@@ -1,0 +1,5 @@
+{
+  "entrypoint": "com.archyx.instanceguard.InstanceGuard",
+  "name": "InstanceGuard",
+  "version": "1.0.0"
+}
