@@ -2,7 +2,8 @@ package com.archyx.instanceguard.commands;
 
 import com.archyx.instanceguard.InstanceGuard;
 import com.archyx.instanceguard.region.RegionManager;
-import net.minestom.server.chat.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.CommandContext;
@@ -22,7 +23,7 @@ public class RegionRemoveCommand extends Command {
 
         addSyntax((sender, context) -> {
             if (!sender.isPlayer()) {
-                sender.sendMessage(ChatColor.YELLOW + "Only players can execute this command!");
+                sender.sendMessage(Component.text("Only players can execute this command!", NamedTextColor.YELLOW));
                 return;
             }
 
@@ -32,21 +33,22 @@ public class RegionRemoveCommand extends Command {
             Instance instance = player.getInstance();
             RegionManager regionManager = extension.getRegionManager(instance);
             if (regionManager == null) {
-                player.sendMessage(ChatColor.YELLOW + "There are no chunks loaded in this instance!");
+                player.sendMessage(Component.text("There are no chunks loaded in this instance!", NamedTextColor.YELLOW));
                 return;
             }
 
             if (regionManager.getRegion(id) != null) {
                 regionManager.removeRegion(id);
-                player.sendMessage(ChatColor.DARK_CYAN + "Removed region " + id);
+                player.sendMessage(Component.text("Removed region " + id, NamedTextColor.DARK_AQUA));
             } else {
-                player.sendMessage(ChatColor.YELLOW + "There is no region with id " + id + " in this instance");
+                player.sendMessage(Component.text("There is no region with id " + id + " in this instance", NamedTextColor.YELLOW));
             }
         }, idArgument);
     }
 
     private void usage(CommandSender sender, CommandContext context) {
-        sender.sendMessage(ChatColor.YELLOW + "Usage: " + ChatColor.WHITE + "/region remove <id>");
+        sender.sendMessage(Component.text("Usage: ", NamedTextColor.YELLOW)
+                .append(Component.text("/region remove <id>", NamedTextColor.WHITE)));
     }
 
 }

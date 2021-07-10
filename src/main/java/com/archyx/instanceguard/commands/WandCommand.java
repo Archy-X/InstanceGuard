@@ -1,6 +1,7 @@
 package com.archyx.instanceguard.commands;
 
-import net.minestom.server.chat.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.entity.Player;
 import net.minestom.server.item.ItemStack;
@@ -14,13 +15,13 @@ public class WandCommand extends Command {
         addSyntax(((sender, context) -> {
             if (sender.isPlayer()) {
                 Player player = sender.asPlayer();
-                if (player.getInventory().addItemStack(new ItemStack(Material.WOODEN_AXE, (byte) 1))) {
-                    player.sendMessage(ChatColor.DARK_CYAN + "You were given the wand");
+                if (player.getInventory().addItemStack(ItemStack.of(Material.WOODEN_AXE))) {
+                    player.sendMessage(Component.text("You were given the wand", NamedTextColor.DARK_AQUA));
                 } else {
-                    player.sendMessage(ChatColor.YELLOW + "Your inventory is full!");
+                    player.sendMessage(Component.text("Your inventory is full!", NamedTextColor.YELLOW));
                 }
             } else {
-                sender.sendMessage(ChatColor.YELLOW + "Only players can execute this command!");
+                sender.sendMessage(Component.text("Only players can execute this command!", NamedTextColor.YELLOW));
             }
         }));
     }

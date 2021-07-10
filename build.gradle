@@ -8,17 +8,9 @@ version '1.0.0'
 repositories {
     mavenCentral()
     maven { url 'https://repo.spongepowered.org/maven' }
-    maven { url 'https://libraries.minecraft.net' }
     maven { url 'https://jitpack.io' }
-    maven { url 'https://repo.aikar.co/content/groups/aikar/' }
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    compileOnly 'com.github.Minestom:Minestom:-SNAPSHOT'
-}
-
-test {
-    useJUnitPlatform()
+    compileOnly 'com.github.Minestom:Minestom:b9864a1a28'
 }

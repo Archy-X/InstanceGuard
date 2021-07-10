@@ -4,7 +4,7 @@ import com.archyx.instanceguard.InstanceGuard;
 import com.archyx.instanceguard.flag.FlagType;
 import com.archyx.instanceguard.flag.FlagValue;
 import com.archyx.instanceguard.region.RegionManager;
-import net.minestom.server.event.CancellableEvent;
+import net.minestom.server.event.trait.CancellableEvent;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.utils.Position;
 

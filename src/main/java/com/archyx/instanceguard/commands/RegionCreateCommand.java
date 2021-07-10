@@ -4,7 +4,8 @@ import com.archyx.instanceguard.InstanceGuard;
 import com.archyx.instanceguard.player.PlayerData;
 import com.archyx.instanceguard.region.CuboidRegion;
 import com.archyx.instanceguard.region.RegionManager;
-import net.minestom.server.chat.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.CommandContext;
@@ -25,7 +26,7 @@ public class RegionCreateCommand extends Command {
 
         addSyntax((sender, context) -> {
             if (!sender.isPlayer()) {
-                sender.sendMessage(ChatColor.YELLOW + "Only players can execute this command!");
+                sender.sendMessage(Component.text("Only players can execute this command!", NamedTextColor.YELLOW));
                 return;
             }
 
@@ -36,19 +37,19 @@ public class RegionCreateCommand extends Command {
             BlockPosition firstPosition = playerData.getFirstPosition();
             BlockPosition secondPosition = playerData.getSecondPosition();
             if (firstPosition == null || secondPosition == null) {
-                player.sendMessage(ChatColor.YELLOW + "You do not have a region selected, use the wand to create a selection");
+                player.sendMessage(Component.text("You do not have a region selected, use the wand to create a selection", NamedTextColor.YELLOW));
                 return;
             }
 
             Instance instance = player.getInstance();
             RegionManager regionManager = extension.getRegionManager(instance);
             if (regionManager == null) {
-                player.sendMessage(ChatColor.YELLOW + "There are no chunks loaded in this instance!");
+                player.sendMessage(Component.text("There are no chunks loaded in this instance!", NamedTextColor.YELLOW));
                 return;
             }
 
             if (regionManager.getRegion(id) != null) {
-                player.sendMessage(ChatColor.YELLOW + "There is already a region in this instance with the id " + id);
+                player.sendMessage(Component.text("There is already a region in this instance with the id " + id, NamedTextColor.YELLOW));
                 return;
             }
 
@@ -71,12 +72,13 @@ public class RegionCreateCommand extends Command {
                 firstPosition.setZ(tempZ);
             }
             regionManager.addRegion(new CuboidRegion(id, firstPosition, secondPosition));
-            player.sendMessage(ChatColor.DARK_CYAN + "Successfully created region with id " + id);
+            player.sendMessage(Component.text("Successfully created region with id " + id, NamedTextColor.DARK_AQUA));
         }, idArgument);
     }
 
     private void usage(CommandSender sender, CommandContext context) {
-        sender.sendMessage(ChatColor.YELLOW + "Usage: " + ChatColor.WHITE + "/region create <id>");
+        sender.sendMessage(Component.text("Usage: ", NamedTextColor.WHITE)
+                .append(Component.text("/region create <id>", NamedTextColor.YELLOW)));
     }
 
 }

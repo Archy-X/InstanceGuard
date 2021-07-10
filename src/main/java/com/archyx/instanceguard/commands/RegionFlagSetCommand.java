@@ -5,7 +5,8 @@ import com.archyx.instanceguard.flag.FlagType;
 import com.archyx.instanceguard.flag.FlagValue;
 import com.archyx.instanceguard.region.Region;
 import com.archyx.instanceguard.region.RegionManager;
-import net.minestom.server.chat.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.CommandContext;
@@ -30,7 +31,7 @@ public class RegionFlagSetCommand extends Command {
 
         addSyntax((sender, context) -> {
             if (!sender.isPlayer()) {
-                sender.sendMessage(ChatColor.YELLOW + "Only players can execute this command!");
+                sender.sendMessage(Component.text("Only players can execute this command!", NamedTextColor.YELLOW));
                 return;
             }
 
@@ -42,28 +43,29 @@ public class RegionFlagSetCommand extends Command {
             Instance instance = player.getInstance();
             RegionManager regionManager = extension.getRegionManager(instance);
             if (regionManager == null) {
-                player.sendMessage(ChatColor.YELLOW + "There are no chunks loaded in this instance!");
+                player.sendMessage(Component.text("There are no chunks loaded in this instance!", NamedTextColor.YELLOW));
                 return;
             }
 
             Region region = regionManager.getRegion(id);
             if (region == null) {
-                player.sendMessage(ChatColor.YELLOW + "There is no region with id " + id + " in your instance!");
+                player.sendMessage(Component.text("There is no region with id " + id + " in your instance!", NamedTextColor.YELLOW));
                 return;
             }
 
             try {
                 FlagType flagType = FlagType.valueOf(flag.toUpperCase(Locale.ROOT));
                 region.setFlag(flagType, new FlagValue(value));
-                player.sendMessage(ChatColor.DARK_CYAN + "Set flag " + flag.toLowerCase(Locale.ROOT) + " in region " + id + " to " + value);
+                player.sendMessage(Component.text("Set flag " + flag.toLowerCase(Locale.ROOT) + " in region " + id + " to " + value, NamedTextColor.DARK_AQUA));
             } catch (IllegalArgumentException e) {
-                player.sendMessage(ChatColor.YELLOW + flag + " is not a valid flag, valid flags are: " + FlagType.getValueList());
+                player.sendMessage(Component.text(flag + " is not a valid flag, valid flags are: " + FlagType.getValueList(), NamedTextColor.YELLOW));
             }
         }, idArgument, flagArgument, valueArgument);
     }
 
     private void usage(CommandSender sender, CommandContext context) {
-        sender.sendMessage(ChatColor.YELLOW + "Usage: " + ChatColor.WHITE + "/region flag set <id> <flag> <value>");
+        sender.sendMessage(Component.text("Usage: ", NamedTextColor.YELLOW)
+                .append(Component.text("/region flag set <id> <flag> <value>", NamedTextColor.WHITE)));
     }
 
 }

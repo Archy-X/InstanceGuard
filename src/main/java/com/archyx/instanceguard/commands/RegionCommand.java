@@ -4,7 +4,8 @@ import com.archyx.instanceguard.InstanceGuard;
 import com.archyx.instanceguard.flag.FlagType;
 import com.archyx.instanceguard.region.Region;
 import com.archyx.instanceguard.region.RegionManager;
-import net.minestom.server.chat.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.CommandContext;
@@ -32,7 +33,8 @@ public class RegionCommand extends Command {
             subCommandList.append(subCommand.getName()).append(", ");
         }
         subCommandList.delete(subCommandList.length() - 2, subCommandList.length());
-        sender.sendMessage(ChatColor.YELLOW + "Unknown command, valid subcommands: " + ChatColor.WHITE + subCommandList.toString());
+        sender.sendMessage(Component.text("Unknown command, valid subcommands: ", NamedTextColor.YELLOW)
+                .append(Component.text(subCommandList.toString(), NamedTextColor.WHITE)));
     }
 
     public static void pathRegionSuggestion(CommandSender sender, CommandContext context, Suggestion suggestion, InstanceGuard extension) {
